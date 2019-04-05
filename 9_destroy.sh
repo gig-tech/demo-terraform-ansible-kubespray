@@ -1,4 +1,5 @@
 #/bin/sh
 
 cd terraform
-terraform destroy -input=false
+terraform destroy -auto-approve
+cd ..
