@@ -9,7 +9,7 @@ client_secret = ""
 server_url= "https://be-gnt-dc01-01.gig.tech"
 
 # cloudspace name
-cs_name = "pipeline-demo"
+cs_name = "demo-terraform-ansible-kubespray"
 
 # image id of the image that will be used to create virtual machines
 # Needs to be looked up through the admin interface
@@ -22,7 +22,7 @@ size_id = 3
 disksize = 10
 
 # The description of the VM
-vm_description = "Pipeline demo"
+vm_description = "demo-terraform-ansible-kubespray"
 
 master_count = 1
 worker_count = 1
