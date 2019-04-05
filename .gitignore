@@ -11,3 +11,4 @@ terraform/iyo.env
 terraform.tfstate
 terraform.tfstate.backup
 demo.json
+.terraform.tfstate.lock.info
