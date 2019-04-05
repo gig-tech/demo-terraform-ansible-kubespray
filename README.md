@@ -11,7 +11,11 @@ This consists of
 
 ## Using this repository
 
-Set up submodule status: `git config --global status.submoduleSummary true`
+Set up submodule status:
+
+```
+git config --global status.submoduleSummary true
+```
 
 Requirements:
 - Itsyou.online account
