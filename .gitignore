@@ -1,0 +1,12 @@
+.vagrant
+*~
+*.retry
+*.swp
+provisioning/roles
+# Environments
+# Ansible vault
+provisioning/.ansible_vault_passwd
+terraform/iyo.env
+.terraform
+terraform.tfstate
+terraform.tfstate.backup
