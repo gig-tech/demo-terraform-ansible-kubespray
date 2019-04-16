@@ -14,9 +14,13 @@ before_script:
   - chmod a+x ~/.terraform.d/plugins/*
   - ls -l ~/.terraform.d/plugins/*
   - ls -l /root/.terraform.d/plugins
+  - ls -dl /root
+  - ls -dl /root/.terraform.d
+  - ls -dl /root/.terraform.d/plugins
   - mkdir -p ./creds
   - echo $SERVICEACCOUNT | base64 -d > ./creds/serviceaccount.json
   - cd terraform
+  - echo $USER
   - terraform init
 
 stages:
