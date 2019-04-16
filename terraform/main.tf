@@ -21,7 +21,7 @@ resource "ovc_machine" "kube-mgt" {
   image_id      = "${var.image_id}"
   size_id       = "${var.size_id}"
   disksize      = "${var.disksize}"
-  name          = "kube-mgt"
+  name          = "demo-terraform-kube-mgt"
   description   = "${var.vm_description} - management node"
 }
 
