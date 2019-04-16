@@ -20,7 +20,7 @@ before_script:
   - mkdir -p ./creds
   - echo $SERVICEACCOUNT | base64 -d > ./creds/serviceaccount.json
   - cd terraform
-  - echo $USER
+  - id
   - terraform init
 
 stages:
