@@ -6,6 +6,8 @@ image:
 
 before_script:
   - rm -rf .terraform
+  - mkdir ~/.terraform
+  - mount | grep noexec
   - terraform --version
   - mkdir -p ~/.terraform.d/plugins
   - curl -L https://github.com/gig-tech/terraform-provider-ovc/releases/download/v0.0.1/terraform-provider-ovc_v0.0.1-linux -o ~/.terraform.d/plugins/terraform-provider-ovc
