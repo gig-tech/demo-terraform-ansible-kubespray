@@ -5,6 +5,7 @@ image:
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
 before_script:
+  - find /root
   - rm -rf .terraform
   - mkdir ~/.terraform
   - mount | grep noexec
