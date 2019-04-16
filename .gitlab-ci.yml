@@ -12,6 +12,8 @@ before_script:
   - wget https://github.com/nbering/terraform-provider-ansible/releases/download/v0.0.4/terraform-provider-ansible-linux_amd64.zip && unzip terraform-provider-ansible-linux_amd64.zip
   - mv linux_amd64/terraform-provider-ansible_v0.0.4 ~/.terraform.d/plugins/terraform-provider-ansible
   - chmod a+x ~/.terraform.d/plugins/*
+  - ls -l ~/.terraform.d/plugins/*
+  - ls -l /root/.terraform.d/plugins
   - mkdir -p ./creds
   - echo $SERVICEACCOUNT | base64 -d > ./creds/serviceaccount.json
   - cd terraform
