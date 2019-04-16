@@ -9,7 +9,7 @@ before_script:
   - terraform --version
   - mkdir -p ~/.terraform.d/plugins
   - curl -L https://github.com/gig-tech/terraform-provider-ovc/releases/download/v0.0.1/terraform-provider-ovc_v0.0.1-linux -o ~/.terraform.d/plugins/terraform-provider-ovc
-  - curl -L https://github.com/nbering/terraform-provider-ansible/releases/download/v0.0.4/terraform-provider-ansible-linux_amd64.zip && unzip terraform-provider-ansible-linux_amd64.zip
+  - curl -L https://github.com/nbering/terraform-provider-ansible/releases/download/v0.0.4/terraform-provider-ansible-linux_amd64.zip -o terraform-provider-ansible-linux_amd64.zip && unzip terraform-provider-ansible-linux_amd64.zip
   - mv linux_amd64/terraform-provider-ansible_v0.0.4 ~/.terraform.d/plugins/terraform-provider-ansible
   - chmod a+x ~/.terraform.d/plugins/*
   - ls -l ~/.terraform.d/plugins/*
