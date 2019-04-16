@@ -9,10 +9,11 @@ before_script:
   - terraform --version
   - mkdir -p ~/.terraform.d/plugins
   - curl https://github.com/gig-tech/terraform-provider-ovc/releases/download/v0.0.1/terraform-provider-ovc_v0.0.1-linux -o ~/.terraform.d/plugins/terraform-provider-ovc
+  - chmod a+x ~/.terraform.d/plugins/terraform-provider-ovc
   - mkdir -p ./creds
   - echo $SERVICEACCOUNT | base64 -d > ./creds/serviceaccount.json
-  - terraform init
   - cd terraform
+  - terraform init
 
 stages:
   - validate
