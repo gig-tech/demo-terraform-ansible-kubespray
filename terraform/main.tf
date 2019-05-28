@@ -1,24 +1,24 @@
 provider "ovc" {
   server_url = "${var.server_url}"
+  client_jwt = "${var.client_jwt}"
 }
 
-# Definition of the our cloudspace
+# Definition of our cloudspace
 resource "ovc_cloudspace" "cs" {
   account = "${var.account}"
   name = "${var.cs_name}"
 }
 
-# Data definition for every cloudspace
-# To be able to get the ip address
-#data "ovc_cloudspace" "cs" {
-#  account = "${var.account}"
-#  name = "${var.cs_name}"
-#}
+
+data "ovc_image" "ubuntu16" {
+  most_recent = true
+  name_regex  = "(?i).*\\.?ubuntu.*16*"
+}
 
 # Definition of the vm to be created with the settings defined in terraform.tfvars
 resource "ovc_machine" "kube-mgt" {
   cloudspace_id = "${ovc_cloudspace.cs.id}"
-  image_id      = "${var.image_id}"
+  image_id      = "${data.ovc_image.ubuntu16.image_id}"
   size_id       = "${var.size_id}"
   disksize      = "${var.disksize}"
   name          = "demo-terraform-kube-mgt"
@@ -63,7 +63,7 @@ resource "null_resource" "provision-kube-mgt" {
 resource "ovc_machine" "k8s-master" {
   count         = "${var.master_count}"
   cloudspace_id = "${ovc_cloudspace.cs.id}"
-  image_id      = "${var.image_id}"
+  image_id      = "${data.ovc_image.ubuntu16.image_id}"
   size_id       = "${var.size_id}"
   disksize      = "${var.disksize}"
   name          = "master-${count.index}-${ovc_cloudspace.cs.location}"
@@ -100,7 +100,7 @@ resource "null_resource" "provision-k8s-master" {
 resource "ovc_machine" "k8s-worker" {
   count         = "${var.worker_count}"
   cloudspace_id = "${ovc_cloudspace.cs.id}"
-  image_id      = "${var.image_id}"
+  image_id      = "${data.ovc_image.ubuntu16.image_id}"
   size_id       = "${var.size_id}"
   disksize      = "${var.disksize}"
   name          = "worker-${count.index}-${ovc_cloudspace.cs.location}"

@@ -1,7 +1,7 @@
 #!/bin/sh
 
+. terraform/iyo.env # ". iyo.env" after "cd terraform" returned iyo.env not found on ubuntu
 cd terraform
-. iyo.env
 terraform init
 terraform plan
 terraform apply -auto-approve

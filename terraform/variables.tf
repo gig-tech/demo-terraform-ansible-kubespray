@@ -1,9 +1,5 @@
-variable "client_id" {
-  description = "Client ID created on itsyou.online"
-}
-
-variable "client_secret" {
-  description = "Client secret created on itsyou.online"
+variable "client_jwt" {
+  description = "Client jwt created on itsyou.online with client id and secret"
 }
 
 variable "server_url" {
