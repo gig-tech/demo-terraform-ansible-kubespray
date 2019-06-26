@@ -1,4 +1,4 @@
-# Demo of terraform, ansible and kubespray integration
+# Demo of Terraform, Ansible and Kubespray integration
 
 With the code in this repository you can meneja the meneja infrastructure
 
@@ -36,6 +36,7 @@ Set up your IYO environment variables:
 ```
 $ cp terraform/iyo.env.example terraform/iyo.env
 $ vi terraform/iyo.env
+# Replace your.iyo.jwt with the JWT received from IYO
 ```
 
 ### Provision with terraform
