@@ -1,8 +1,8 @@
 # Demo of Terraform, Ansible and Kubespray integration
 
-With the code in this repository you can meneja the meneja infrastructure
+This repo serves as an example as how to set up a kubernetes cluster on OpenvCloud.
 
-This consists of
+The repo consists of
 * terraform configuration to manage the cloudspaces and create the virtual machines
 * ansible configuration to configure the virtual machines
 * kubespray configuration to deploy the kubernetes cluster
@@ -11,7 +11,7 @@ This consists of
 
 ## Using this repository
 
-Import submodule:
+Import git submodule:
 
 ```
 git config --global status.submoduleSummary true
@@ -50,7 +50,7 @@ Run `./2_ansible.sh`
 If you receive the following error:  
 `The ipaddr filter requires python's netaddr be installed on the ansible controller`  
 You may need to install the `ipaddr` library using your package manager:  
-`apt-get install python-ipadddr` (if ansible uses python 3.x install `python3-ipaddr`)
+`apt-get install python-ipaddr` (if ansible uses python 3.x install `python3-ipaddr`)
 
 ### Provision with kubespray
 
