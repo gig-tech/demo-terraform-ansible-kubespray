@@ -20,12 +20,13 @@ git submodule update
 ```
 
 Requirements:
+- Have terraform v0.11.x installed (At time of writing the OVC terraform provider does not support v0.12) (you can find the binaries [here](https://releases.hashicorp.com/terraform/))
 - Itsyou.online account (retrieve a client ID and client secret and get a JWT) (https://github.com/gig-tech/terraform-provider-ovc#authentication)
 - Necessary permissions on a G8 (cloudspace account), that is linked to your Itsyou.online account
 - Edit terraform/terraform.tfvars as needed (may need to update `account` and `server_url`)
 - The terraform-inventory script: https://github.com/nbering/terraform-inventory/ , already provided in the repo
-- The ansible provider plugin https://github.com/nbering/terraform-provider-ansible , download the latest release and put the file at ~/.terraform.d/plugins/terraform-provider-ansible
-- The OVC provider plugin https://github.com/gig-tech/terraform-provider-ovc, download the latest release and put the file at ~/.terraform.d/plugins/terraform-provider-ovc
+- The ansible provider plugin https://github.com/nbering/terraform-provider-ansible , download the latest release and put the file in `terraform/.terraform.d/plugins`
+- The OVC provider plugin https://github.com/gig-tech/terraform-provider-ovc, download the latest release and put the file at `terraform/.terraform.d/plugins`
 - Your ssh public key(s) will be added during provisioning, add it to `terraform/scripts/setup-ansible-account.sh`
 - Also insert the key(s) into the following file: `provisioning/public_keys/ansible`
 
@@ -50,8 +51,8 @@ Run `./2_ansible.sh`
 
 If you receive the following error:  
 `The ipaddr filter requires python's netaddr be installed on the ansible controller`  
-You may need to install the `ipaddr` library using your package manager:  
-`apt-get install python-ipaddr` (if ansible uses python 3.x install `python3-ipaddr`)
+You may need to install the `netaddr` library using your package manager:  
+`apt-get install python-netaddr` (if ansible uses python 3.x install `python3-netaddr`)
 
 ### Provision with kubespray
 
