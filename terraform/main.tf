@@ -32,7 +32,7 @@ output "kube-mgt" {
 resource "null_resource" "provision-kube-mgt" {
 
   provisioner "local-exec" {
-    command = "ssh-keygen -R [${ovc_port_forwarding.mgt-ssh.public_ip}]:${ovc_port_forwarding.mgt-ssh.public_port}"
+    command = "ssh-keygen -R [${ovc_port_forwarding.mgt-ssh.public_ip}]:${ovc_port_forwarding.mgt-ssh.public_port} || true"
   }
 
   provisioner "local-exec" {
