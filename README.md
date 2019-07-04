@@ -26,7 +26,8 @@ Requirements:
 - The terraform-inventory script: https://github.com/nbering/terraform-inventory/ , already provided in the repo
 - The ansible provider plugin https://github.com/nbering/terraform-provider-ansible , download the latest release and put the file at ~/.terraform.d/plugins/terraform-provider-ansible
 - The OVC provider plugin https://github.com/gig-tech/terraform-provider-ovc, download the latest release and put the file at ~/.terraform.d/plugins/terraform-provider-ovc
-- Your ssh public key will be added during provisioning, add it to `terraform/scripts/setup-ansible-account.sh`
+- Your ssh public key(s) will be added during provisioning, add it to `terraform/scripts/setup-ansible-account.sh`
+- Also insert the key(s) into the following file: `provisioning/public_keys/ansible`
 
 Before starting you must make `terraform/iyo.env` and add your IYO client_jwt.  
 This file is in the gitignore file, so it will not be commited to the repo by accident.
