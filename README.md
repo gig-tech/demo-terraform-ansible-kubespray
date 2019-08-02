@@ -39,7 +39,7 @@ Run `./1_terraform-provision.sh`
 
 Run `./2_kubespray.sh`
 
-### Add persistent volume
+### Install OVC SCI driver on the Kubernetes cluster
 
 Run `./3_sci_driver.sh`
 
