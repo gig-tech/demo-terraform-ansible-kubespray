@@ -1,6 +1,5 @@
 #!/bin/sh
 
-# . config.env # ". iyo.env" after "cd terraform" returned iyo.env not found on ubuntu
 cd terraform
 terraform init
 terraform plan
