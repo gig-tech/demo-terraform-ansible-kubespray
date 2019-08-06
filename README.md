@@ -29,7 +29,16 @@ Requirements:
 - The OVC provider plugin https://github.com/gig-tech/terraform-provider-ovc, download the latest release and put the file at ~/.terraform.d/plugins/terraform-provider-ovc
 - Your ssh public key will be added when deploying with Terraform
 
-Before starting update Terraform configuration in `config.env` file with your own data. You can also add Terraform variables to `terraform/terraform.tfvars`. It is important that `server_url`, `client_jwt` and `account` are given as environmental variables, as they are used in further steps.
+Before starting rename (for example into `config.env`) and update configuration file `config.env.example` with your own data. Export environment variables
+
+``` shell
+. config.env
+```
+
+Terraform supports setting variables with environment variables or in `terraform.tfvar` file. When setting as environmentals, variables should be prefixed with `TF_VAR_`.
+For this example it is important that `server_url`, `client_jwt` and `account` are given as environmental variables, as they are used in further steps. You can also add values for other Terraform variables defined in `terraform/variables.tf` to `terraform/terraform.tfvars` or to `config.env`.
+
+Note that ANSIBLE_TF_DIR variable in `config.env` should contain path to the Terraform configuration directory (in this example `terraform` is the relative path in the project folder). This is necessary for dynamic inventory to work with the Ansible playbooks.
 
 ### Provision with terraform
 
