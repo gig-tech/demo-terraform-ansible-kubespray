@@ -18,7 +18,7 @@ resource "ovc_machine" "kube-mgt" {
   memory        = "${var.memory}"
   vcpus         = "${var.vcpus}"
   disksize      = "${var.disksize}"
-  name          = "${var.cluster_name}-terraform-kube-mgt"
+  name          = "${var.cs_name}-terraform-kube-mgt"
   description   = "${var.vm_description} - management node"
   userdata      = "users: [{name: ansible, shell: /bin/bash, ssh-authorized-keys: [${var.ssh_key}]}]"
 }
@@ -41,6 +41,9 @@ resource "ovc_machine" "k8s-master" {
 # configure user access on master nodes
 resource "null_resource" "provision-k8s-master" {
   count         = "${var.master_count}"
+  triggers {
+      build_number = "${timestamp()}"
+  }
   provisioner "file" {
     content      = "ansible    ALL=(ALL:ALL) NOPASSWD: ALL"
     destination = "/etc/sudoers.d/90-ansible"
@@ -52,7 +55,7 @@ resource "null_resource" "provision-k8s-master" {
     bastion_user     = "ansible"
     bastion_host     = "${ovc_port_forwarding.mgt-ssh.public_ip}"
     bastion_port     = "${ovc_port_forwarding.mgt-ssh.public_port}"
-  } 
+  }
 }
 ## Worker machines
 resource "ovc_machine" "k8s-worker" {
@@ -76,45 +79,7 @@ resource "ovc_disk" "worker-disk" {
   ssd_size      = 10
   iops          = 2000
 }
-resource "null_resource" "provision-k8s-worker" {
-  count         = "${var.worker_count}"
-
-  # configure access for ansible user
-  provisioner "file" {
-    content      = "ansible    ALL=(ALL:ALL) NOPASSWD: ALL"
-    destination = "/etc/sudoers.d/90-ansible"
-  }
-  # Copy scripts dir to /home/user/
-  provisioner "file" {
-    source      = "scripts"
-    destination = "/home/${ovc_machine.k8s-worker.*.username[count.index]}"
-  }
-  depends_on = ["ovc_disk.worker-disk"]
-  provisioner "remote-exec" {
-    inline = [
-			# "echo ${ovc_machine.k8s-worker.*.password[count.index]} | sudo -S bash /home/${ovc_machine.k8s-worker.*.username[count.index]}/scripts/setup-ansible-account.sh",
-			"echo ${ovc_machine.k8s-worker.*.password[count.index]} | sudo -S bash /home/${ovc_machine.k8s-worker.*.username[count.index]}/scripts/move-var.sh",
-    ]
-  }
-  connection {
-    type     = "ssh"
-    user		 = "root"
-    host     = "${ovc_machine.k8s-worker.*.ip_address[count.index]}"
-    bastion_user     = "ansible"
-    bastion_host     = "${ovc_port_forwarding.mgt-ssh.public_ip}"
-    bastion_port     = "${ovc_port_forwarding.mgt-ssh.public_port}"
-  }
-}
 # Port forwards
-resource "ovc_port_forwarding" "mgt-ssh" {
-  count = 1
-  cloudspace_id = "${ovc_cloudspace.cs.id}"
-  public_ip     = "${ovc_cloudspace.cs.external_network_ip}"
-  public_port   = 2222
-  machine_id    = "${ovc_machine.kube-mgt.id}"
-  local_port    = 22
-  protocol      = "tcp"
-}
 resource "ovc_port_forwarding" "k8s-master-api" {
   cloudspace_id = "${ovc_cloudspace.cs.id}"
   public_ip     = "${ovc_cloudspace.cs.external_network_ip}"
@@ -139,6 +104,46 @@ resource "ovc_port_forwarding" "k8s-worker-0-https" {
   local_port    = 31443
   protocol      = "tcp"
 }
+resource "ovc_port_forwarding" "mgt-ssh" {
+  count = 1
+  cloudspace_id = "${ovc_cloudspace.cs.id}"
+  public_ip     = "${ovc_cloudspace.cs.external_network_ip}"
+  public_port   = 2222
+  machine_id    = "${ovc_machine.kube-mgt.id}"
+  local_port    = 22
+  protocol      = "tcp"
+}
+resource "null_resource" "provision-k8s-worker" {
+  count         = "${var.worker_count}"
+  triggers {
+      build_number = "${timestamp()}"
+  }
+  # configure access for ansible user
+  provisioner "file" {
+    content      = "ansible    ALL=(ALL:ALL) NOPASSWD: ALL"
+    destination = "/etc/sudoers.d/90-ansible"
+  }
+  # Copy scripts dir to /home/user/
+  provisioner "file" {
+    source      = "scripts"
+    destination = "/home/${ovc_machine.k8s-worker.*.username[count.index]}"
+  }
+  depends_on = ["ovc_disk.worker-disk"]
+  provisioner "remote-exec" {
+    inline = [
+			"echo ${ovc_machine.k8s-worker.*.password[count.index]} | sudo -S bash /home/${ovc_machine.k8s-worker.*.username[count.index]}/scripts/move-var.sh",
+    ]
+  }
+  connection {
+    type     = "ssh"
+    user		 = "root"
+    host     = "${ovc_machine.k8s-worker.*.ip_address[count.index]}"
+    bastion_user     = "ansible"
+    bastion_host     = "${ovc_port_forwarding.mgt-ssh.public_ip}"
+    bastion_port     = "${ovc_port_forwarding.mgt-ssh.public_port}"
+  }
+}
+
 # Ansible hosts
 resource "ansible_host" "kube-mgt" {
     inventory_hostname = "${ovc_machine.kube-mgt.name}"

@@ -12,9 +12,6 @@ variable "account" {
 
 variable "cs_name" {
   description = "cloudspace name"
-}
-variable "cluster_name" {
-  description = "cloudspace name"
   default = "demo"
 }
 
