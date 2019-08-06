@@ -1,20 +1,21 @@
 # OVC Account name, your IYO account must have access to it.
-account = "GIG demos"
+# account = "katia"
 
-# G8 api url
-server_url= "https://be-gnt-dc01-01.gig.tech"
+# # G8 api url
+# # server_url= "https://ch-lug-dc01-002.gig.tech"
+# server_url = "https://be-g8-3.gig.tech"
 
-# cloudspace name
-cs_name = "demo-terraform-ansible-kubespray"
+# # cloudspace name
+# cs_name = "k8s-pcv"
 
-# Needs to be looked up through the API!
-# Size id (define how many cpus / ram )  you can get that from ovc first
-# disk size in GB you can get that from ovc first
-size_id = 3
-disksize = 10
+# disksize = 10
+# memory = 2048
+# vcpus = 2
 
-# The description of the VM
-vm_description = "demo-terraform-ansible-kubespray"
+# # The description of the VM
+# vm_description = "demo-terraform-ansible-kubespray"
 
-master_count = 1
-worker_count = 1
+# master_count = 1
+# worker_count = 3
+
+# image_name = "(?i).*\\.?ubuntu.*16"

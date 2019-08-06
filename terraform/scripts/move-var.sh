@@ -15,14 +15,18 @@ do
      sleep 5
 done
 
-mkfs.ext4 /dev/vdb
+if ! mount | grep vdb
+  then
+     mkfs.ext4 /dev/vdb
 
-mount /dev/vdb /mnt
-rsync -aqxP /var/* /mnt
-umount /mnt
-uuid=`lsblk /dev/vdb -o UUID -n`
-echo UUID=$uuid /var ext4 defaults 0 0 >> /etc/fstab
+     mount /dev/vdb /mnt
+     rsync -aqxP /var/* /mnt
+     umount /mnt
+     uuid=`lsblk /dev/vdb -o UUID -n`
+     echo UUID=$uuid /var ext4 defaults 0 0 >> /etc/fstab
 
-# Reboot after one minute, this lets the terraform remote-exec
-# provisioner exit nicely
-shutdown -r
+     # Reboot after one minute, this lets the terraform remote-exec
+     # provisioner exit nicely
+     shutdown -r
+fi
+
