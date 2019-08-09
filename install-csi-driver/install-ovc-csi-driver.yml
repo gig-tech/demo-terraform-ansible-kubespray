@@ -1,0 +1,35 @@
+---
+# fetch kube config to take control over the cluster
+- hosts: kube-master
+  become: yes
+  gather_facts: no
+  vars:
+    kubernetes_port: 6443
+    mnt: "{{ groups['mgt'][0] }}"
+    cluster_url: "https://{{ hostvars[mnt]['ansible_host'] }}:{{ kubernetes_port }}"
+    local_config_path: "{{ lookup('env','KUBECONFIG') }}"
+    remote_config_path: /root/.kube/config
+  tasks:
+    - debug: var=local_config_path
+    - name: Fetch k8s config file
+      fetch:
+        src: "{{ remote_config_path }}"
+        dest: "{{ local_config_path }}"
+        flat: yes
+    - name: Load k8s config 
+      shell: 
+        cmd: | 
+          kubectl config set clusters.cluster.local.insecure-skip-tls-verify true
+          kubectl config unset clusters.cluster.local.certificate-authority-data
+          kubectl config set clusters.cluster.local.server {{ cluster_url }}
+
+#install CSI driver
+- hosts: localhost
+  vars:
+    state: installed
+    server_url: "{{ lookup('env','TV_VAR_server_url') }}"
+    account: "{{ lookup('env','TF_VAR_account') }}"
+    client_jwt: "{{ lookup('env','TF_VAR_client_jwt') }}"
+    persistent_volume_size: "{{ lookup('env','persistent_volume_size') }}"
+  roles:
+    - {role: csi-driver}

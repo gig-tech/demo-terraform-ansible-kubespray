@@ -1,3 +1,12 @@
+.vscode
+
+*.env
+
+tmp/
+
+*.log
+*.json
+
 .vagrant
 *~
 *.retry
