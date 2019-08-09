@@ -5,7 +5,7 @@ provider "ovc" {
 # Definition of the cloudspace
 resource "ovc_cloudspace" "cs" {
   account = "${var.account}"
-  name = "${var.cs_name}"
+  name = "${var.cloudspace}"
 }
 data "ovc_image" "image" {
   most_recent = true
@@ -18,7 +18,7 @@ resource "ovc_machine" "kube-mgt" {
   memory        = "${var.memory}"
   vcpus         = "${var.vcpus}"
   disksize      = "${var.disksize}"
-  name          = "${var.cs_name}-terraform-kube-mgt"
+  name          = "${var.cloudspace}-terraform-kube-mgt"
   description   = "${var.vm_description} - management node"
   userdata      = "users: [{name: ansible, shell: /bin/bash, ssh-authorized-keys: [${var.ssh_key}]}]"
 }

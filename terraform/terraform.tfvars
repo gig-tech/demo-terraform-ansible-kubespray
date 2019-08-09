@@ -6,7 +6,7 @@
 # server_url = "https://be-g8-3.gig.tech"
 
 # # cloudspace name
-# cs_name = "k8s-pcv"
+# cloudspace = "k8s-pcv"
 
 # disksize = 10
 # memory = 2048
