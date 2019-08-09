@@ -21,6 +21,9 @@ git submodule update
 ```
 
 Requirements:
+- Have Terraform v0.11.x installed as 0.12 is not supported by the [OVC Terraform provider](https://github.com/gig-tech/terraform-provider-ovc/issues/48)  
+Version 0.11.14 binary files can be found here: https://releases.hashicorp.com/terraform/0.11.14/
+- Have [Ansible installed](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 - Itsyou.online account (retrieve a client ID and client secret and get a JWT) (https://github.com/gig-tech/terraform-provider-ovc#authentication)
 - Necessary permissions on a G8 (cloudspace account), that is linked to your Itsyou.online account
 - Edit terraform/terraform.tfvars as needed (may need to update `account` and `server_url`)
@@ -44,9 +47,14 @@ Note that ANSIBLE_TF_DIR variable in `config.env` should contain path to the Ter
 
 Run `./1_terraform-provision.sh`
 
-### Provision with kubespray
+### Install the Kubernetes cluster with kubespray
 
 Run `./2_kubespray.sh`
+
+If you receive the following error:  
+`The ipaddr filter requires python's netaddr be installed on the ansible controller`  
+You may need to install the `netaddr` library:  
+`apt-get install python-netaddr`
 
 ### Install OVC SCI driver on the Kubernetes cluster
 
