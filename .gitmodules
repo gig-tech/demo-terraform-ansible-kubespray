@@ -4,3 +4,6 @@
 [submodule "terraform-inventory"]
 	path = terraform-inventory
 	url = https://github.com/nbering/terraform-inventory
+[submodule "kubespray"]
+	path = kubespray
+	url = https://github.com/kubernetes-sigs/kubespray.git
