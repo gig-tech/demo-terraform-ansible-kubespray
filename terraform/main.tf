@@ -25,7 +25,6 @@ resource "ovc_machine" "kube-mgt" {
 output "kube-mgt" {
   value       = "${ovc_port_forwarding.mgt-ssh.public_ip}"
 }
-
 # Master machines
 resource "ovc_machine" "k8s-master" {
   count         = "${var.master_count}"
@@ -113,6 +112,14 @@ resource "ovc_port_forwarding" "mgt-ssh" {
   local_port    = 22
   protocol      = "tcp"
 }
+resource "null_resource" "provision-local"{
+  provisioner "local-exec" {
+    command = "ssh-keygen -R [${ovc_port_forwarding.mgt-ssh.public_ip}]:${ovc_port_forwarding.mgt-ssh.public_port} || true"
+  }
+  provisioner "local-exec"{
+    command = "ssh-keyscan -H -p ${ovc_port_forwarding.mgt-ssh.public_port} ${ovc_port_forwarding.mgt-ssh.public_ip} >> ~/.ssh/known_hosts || true"
+  }    
+}
 resource "null_resource" "provision-k8s-worker" {
   count         = "${var.worker_count}"
   triggers {
@@ -123,15 +130,14 @@ resource "null_resource" "provision-k8s-worker" {
     content      = "ansible    ALL=(ALL:ALL) NOPASSWD: ALL"
     destination = "/etc/sudoers.d/90-ansible"
   }
-  # Copy scripts dir to /home/user/
-  provisioner "file" {
-    source      = "scripts"
-    destination = "/home/${ovc_machine.k8s-worker.*.username[count.index]}"
-  }
   depends_on = ["ovc_disk.worker-disk"]
+  # Download script to move the data of the /var directory
+  # to the partion /dev/vdb. The system is rebooted
   provisioner "remote-exec" {
     inline = [
-			"echo ${ovc_machine.k8s-worker.*.password[count.index]} | sudo -S bash /home/${ovc_machine.k8s-worker.*.username[count.index]}/scripts/move-var.sh",
+      "mkdir -p /home/ansible/scripts",
+      "cd /home/ansible/scripts && curl -O https://raw.githubusercontent.com/gig-tech/demo-terraform-ansible-kubespray/dev/terraform/scripts/move-var.sh",
+      "sudo -S bash /home/ansible/scripts/move-var.sh",
     ]
   }
   connection {
@@ -143,7 +149,6 @@ resource "null_resource" "provision-k8s-worker" {
     bastion_port     = "${ovc_port_forwarding.mgt-ssh.public_port}"
   }
 }
-
 # Ansible hosts
 resource "ansible_host" "kube-mgt" {
     inventory_hostname = "${ovc_machine.kube-mgt.name}"

@@ -26,6 +26,7 @@ Requirements:
 - Have Terraform v0.11.x installed as 0.12 is not supported by the [OVC Terraform provider](https://github.com/gig-tech/terraform-provider-ovc/issues/48)  
 Version 0.11.14 binary files can be found here: https://releases.hashicorp.com/terraform/0.11.14/
 - Have [Ansible installed](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+- Have Kubernetes v1.15.0 or higher installed
 - Itsyou.online account (retrieve a client ID and client secret and get a JWT) (https://github.com/gig-tech/terraform-provider-ovc#authentication)
 - Necessary permissions on a G8 (cloudspace account), that is linked to your Itsyou.online account
 - The terraform-inventory script: https://github.com/nbering/terraform-inventory/ , already provided in the repo

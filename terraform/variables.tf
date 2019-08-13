@@ -13,7 +13,7 @@ variable "cloudspace" {
 }
 variable "vm_description" {
   description = "Description of the VM"
-  default = "kubernester cluster"
+  default = "kubernetes cluster"
 }
 variable "memory" {
   description = "Machine memory"
