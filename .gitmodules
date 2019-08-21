@@ -1,9 +1,9 @@
-[submodule "kubespray"]
-	path = kubespray
-	url = https://github.com/kubernetes-sigs/kubespray.git
 [submodule "ovc-disk-csi-driver"]
 	path = ovc-disk-csi-driver
 	url = https://github.com/gig-tech/ovc-disk-csi-driver.git
 [submodule "terraform-inventory"]
 	path = terraform-inventory
 	url = https://github.com/nbering/terraform-inventory
+[submodule "kubespray"]
+	path = kubespray
+	url = https://github.com/kubernetes-sigs/kubespray.git

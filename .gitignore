@@ -1,3 +1,12 @@
+.vscode
+
+*.env
+
+tmp/
+
+*.log
+*.json
+
 .vagrant
 *~
 *.retry
@@ -12,3 +21,4 @@ terraform.tfstate
 terraform.tfstate.backup
 demo.json
 .terraform.tfstate.lock.info
+config.env
